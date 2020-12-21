@@ -35,8 +35,21 @@ model.compile(optimizer = 'adam',
               metrics=['accuracy'])
 
 #Fitting the images on training dataset
-model.fit(training_images, training_labels, epochs=5,callbacks=[callbacks])
+model.fit(training_images, training_labels, epochs=30,callbacks=[callbacks],validation_data=(test_images,test_labels),verbose=1)
 
 #Returns the loss value & metrics values for the model in test mode.
 model.evaluate(test_images, test_labels)
 
+#Doing some testing
+y_pr=model.predict(test_images)
+y_pred=[]
+for i in range(len(y_pr)):
+  y_pred.append(np.argmax(y_pr[i]))
+labels=['T-shirt/top','Trouser','Pullover','Dress','Coat','Sandal','Shirt','Sneaker','Bag','Ankle boot']
+
+#Printing the test images and their prediction
+for i in range(5):
+  print('prediction of the image : ',labels[y_pred[i]])
+  print('actual image :')
+  plt.imshow(test_images[i].reshape(28,28))
+  plt.show()
